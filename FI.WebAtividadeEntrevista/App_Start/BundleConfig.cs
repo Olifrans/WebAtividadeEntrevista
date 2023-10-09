@@ -29,18 +29,6 @@ namespace WebAtividadeEntrevista
 					  "~/Scripts/jtable/localization/jquery.jtable.pt-BR.js"));
 
 
-
-
-			//jquery_inputmask
-			bundles.Add(new ScriptBundle("~/bundles/inputmask").Include(
-				"~/Scripts/inputmask/jquery.inputmask.js",
-				"~/Scripts/jquery.inputmask/inputmask.js",
-				"~/Scripts/jquery.inputmask/jquery.inputmask.js",
-				"~/Scripts/jquery.inputmask/inputmask.extensions.js",
-				"~/Scripts/jquery.inputmask/inputmask.date.extensions.js",
-				"~/Scripts/jquery.inputmask/inputmask.numeric.extensions.js"));
-
-
 			//Clientes
 			bundles.Add(new ScriptBundle("~/bundles/clientes").Include(
 					  "~/Scripts/Clientes/FI.Clientes.js"));
@@ -48,9 +36,6 @@ namespace WebAtividadeEntrevista
 					  "~/Scripts/Clientes/FI.ListClientes.js"));
 			bundles.Add(new ScriptBundle("~/bundles/altClientes").Include(
 					  "~/Scripts/Clientes/FI.AltClientes.js"));
-
-
-
 
 			
 			//Beneficiarios
@@ -60,10 +45,6 @@ namespace WebAtividadeEntrevista
 					  "~/Scripts/Clientes/FI.ListBeneficiario.js"));
 			bundles.Add(new ScriptBundle("~/bundles/altBeneficiario").Include(
 					  "~/Scripts/Clientes/FI.AltBeneficiario.js"));
-
-
-
-
 
 
 

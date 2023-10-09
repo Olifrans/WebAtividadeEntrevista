@@ -187,8 +187,7 @@ namespace WebAtividadeEntrevista.Controllers
 				model.ID = bo.Incluir(new Beneficiario()
 				{
 					CPF = model.CPF,
-					NOME = model.NOME,
-					IDCLIENTE = model.IDCLIENTE
+					NOME = model.NOME,					
 				});
 
 				return Json("Cadastro efetuado com sucesso");
@@ -216,8 +215,7 @@ namespace WebAtividadeEntrevista.Controllers
 				{
 					ID = model.ID,
 					CPF = model.CPF,
-					NOME = model.NOME,
-					IDCLIENTE = model.IDCLIENTE
+					NOME = model.NOME,					
 				});
 
 				return Json("Cadastro alterado com sucesso");
@@ -237,8 +235,7 @@ namespace WebAtividadeEntrevista.Controllers
 				{
 					ID = model.ID,
 					CPF = model.CPF,
-					NOME = model.NOME,
-					IDCLIENTE = model.IDCLIENTE
+					NOME = model.NOME,					
 				};
 			}
 
