@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FI.AtividadeEntrevista.BLL
 {
     public class BoCliente
-    {
+	{
         /// <summary>
         /// Inclui um novo cliente
         /// </summary>
@@ -15,7 +15,8 @@ namespace FI.AtividadeEntrevista.BLL
         public long Incluir(DML.Cliente cliente)
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
-            return cli.Incluir(cliente);
+            
+			return cli.Incluir(cliente);
         }
 
         /// <summary>

@@ -70,7 +70,10 @@ namespace WebAtividadeEntrevista.Models
         /// <summary>
         /// CPF
         /// </summary>
+        //[RegularExpression(@"[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}", ErrorMessage = "Digite um CPF é válido - Exemplo: 999.999.999-07")]
+        [RegularExpression(@"[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}", ErrorMessage = "Digite um CPF é válido - Exemplo: 999.999.999-99")]
         public string CPF { get; set; }
+
 
     }    
 }

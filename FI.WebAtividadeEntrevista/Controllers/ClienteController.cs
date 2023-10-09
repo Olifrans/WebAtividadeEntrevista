@@ -9,144 +9,270 @@ using FI.AtividadeEntrevista.DML;
 
 namespace WebAtividadeEntrevista.Controllers
 {
-    public class ClienteController : Controller
-    {
-        public ActionResult Index()
-        {
-            return View();
-        }
+	public class ClienteController : Controller
+	{
+		public ActionResult Index()
+		{
+			return View();
+		}
 
 
-        public ActionResult Incluir()
-        {
-            return View();
-        }
+		public ActionResult Incluir()
+		{
+			return View();
+		}
 
-        [HttpPost]
-        public JsonResult Incluir(ClienteModel model)
-        {
-            BoCliente bo = new BoCliente();
-            
-            if (!this.ModelState.IsValid)
-            {
-                List<string> erros = (from item in ModelState.Values
-                                      from error in item.Errors
-                                      select error.ErrorMessage).ToList();
+		[HttpPost]
+		public JsonResult Incluir(ClienteModel model)
+		{
 
-                Response.StatusCode = 400;
-                return Json(string.Join(Environment.NewLine, erros));
-            }
-            else
-            {                
-                model.Id = bo.Incluir(new Cliente()
-                {                    
-                    CEP = model.CEP,
-                    Cidade = model.Cidade,
-                    Email = model.Email,
-                    Estado = model.Estado,
-                    Logradouro = model.Logradouro,
-                    Nacionalidade = model.Nacionalidade,
-                    Nome = model.Nome,
-                    Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone,
-                    CPF = model.CPF
-                });
-           
-                return Json("Cadastro efetuado com sucesso");
-            }
-        }
+			BoCliente bo = new BoCliente();
 
+			if (!this.ModelState.IsValid)
+			{
+				List<string> erros = (from item in ModelState.Values
+									  from error in item.Errors
+									  select error.ErrorMessage).ToList();
 
-        [HttpPost]
-        public JsonResult Alterar(ClienteModel model)
-        {
-            BoCliente bo = new BoCliente();
-       
-            if (!this.ModelState.IsValid)
-            {
-                List<string> erros = (from item in ModelState.Values
-                                      from error in item.Errors
-                                      select error.ErrorMessage).ToList();
+				Response.StatusCode = 400;
+				return Json(string.Join(Environment.NewLine, erros));
+			}
+			else
+			{
+				model.Id = bo.Incluir(new Cliente()
+				{
+					CEP = model.CEP,
+					Cidade = model.Cidade,
+					Email = model.Email,
+					Estado = model.Estado,
+					Logradouro = model.Logradouro,
+					Nacionalidade = model.Nacionalidade,
+					Nome = model.Nome,
+					Sobrenome = model.Sobrenome,
+					Telefone = model.Telefone,
+					CPF = model.CPF
+				});
 
-                Response.StatusCode = 400;
-                return Json(string.Join(Environment.NewLine, erros));
-            }
-            else
-            {
-                bo.Alterar(new Cliente()
-                {
-                    Id = model.Id,
-                    CEP = model.CEP,
-                    Cidade = model.Cidade,
-                    Email = model.Email,
-                    Estado = model.Estado,
-                    Logradouro = model.Logradouro,
-                    Nacionalidade = model.Nacionalidade,
-                    Nome = model.Nome,
-                    Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone,
-                    CPF = model.CPF
-                });
-                               
-                return Json("Cadastro alterado com sucesso");
-            }
-        }
-
-        [HttpGet]
-        public ActionResult Alterar(long id)
-        {
-            BoCliente bo = new BoCliente();
-            Cliente cliente = bo.Consultar(id);
-            Models.ClienteModel model = null;
-
-            if (cliente != null)
-            {
-                model = new ClienteModel()
-                {
-                    Id = cliente.Id,
-                    CEP = cliente.CEP,
-                    Cidade = cliente.Cidade,
-                    Email = cliente.Email,
-                    Estado = cliente.Estado,
-                    Logradouro = cliente.Logradouro,
-                    Nacionalidade = cliente.Nacionalidade,
-                    Nome = cliente.Nome,
-                    Sobrenome = cliente.Sobrenome,
-                    Telefone = cliente.Telefone,
-                    CPF = cliente.CPF
-                };            
-            }
-
-            return View(model);
-        }
+				return Json("Cadastro efetuado com sucesso");
+			}
+		}
 
 
+		[HttpPost]
+		public JsonResult Alterar(ClienteModel model)
+		{
+			BoCliente bo = new BoCliente();
 
-        [HttpPost]
-        public JsonResult ClienteList(int jtStartIndex = 0, int jtPageSize = 0, string jtSorting = null)
-        {
-            try
-            {
-                int qtd = 0;
-                string campo = string.Empty;
-                string crescente = string.Empty;
-                string[] array = jtSorting.Split(' ');
+			if (!this.ModelState.IsValid)
+			{
+				List<string> erros = (from item in ModelState.Values
+									  from error in item.Errors
+									  select error.ErrorMessage).ToList();
 
-                if (array.Length > 0)
-                    campo = array[0];
+				Response.StatusCode = 400;
+				return Json(string.Join(Environment.NewLine, erros));
+			}
+			else
+			{
+				bo.Alterar(new Cliente()
+				{
+					Id = model.Id,
+					CEP = model.CEP,
+					Cidade = model.Cidade,
+					Email = model.Email,
+					Estado = model.Estado,
+					Logradouro = model.Logradouro,
+					Nacionalidade = model.Nacionalidade,
+					Nome = model.Nome,
+					Sobrenome = model.Sobrenome,
+					Telefone = model.Telefone,
+					CPF = model.CPF
+				});
 
-                if (array.Length > 1)
-                    crescente = array[1];
+				return Json("Cadastro alterado com sucesso");
+			}
+		}
 
-                List<Cliente> clientes = new BoCliente().Pesquisa(jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out qtd);
+		[HttpGet]
+		public ActionResult Alterar(long id)
+		{
+			BoCliente bo = new BoCliente();
+			Cliente cliente = bo.Consultar(id);
+			Models.ClienteModel model = null;
 
-                //Return result to jTable
-                return Json(new { Result = "OK", Records = clientes, TotalRecordCount = qtd });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Result = "ERROR", Message = ex.Message });
-            }
-        }
-    }
+			if (cliente != null)
+			{
+				model = new ClienteModel()
+				{
+					Id = cliente.Id,
+					CEP = cliente.CEP,
+					Cidade = cliente.Cidade,
+					Email = cliente.Email,
+					Estado = cliente.Estado,
+					Logradouro = cliente.Logradouro,
+					Nacionalidade = cliente.Nacionalidade,
+					Nome = cliente.Nome,
+					Sobrenome = cliente.Sobrenome,
+					Telefone = cliente.Telefone,
+					CPF = cliente.CPF
+				};
+			}
+
+			return View(model);
+		}
+
+
+		[HttpPost]
+		public JsonResult ClienteList(int jtStartIndex = 0, int jtPageSize = 0, string jtSorting = null)
+		{
+			try
+			{
+				int qtd = 0;
+				string campo = string.Empty;
+				string crescente = string.Empty;
+				string[] array = jtSorting.Split(' ');
+
+				if (array.Length > 0)
+					campo = array[0];
+
+				if (array.Length > 1)
+					crescente = array[1];
+
+				List<Cliente> clientes = new BoCliente().Pesquisa(jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out qtd);
+
+				//Return result to jTable
+				return Json(new { Result = "OK", Records = clientes, TotalRecordCount = qtd });
+			}
+			catch (Exception ex)
+			{
+				return Json(new { Result = "ERROR", Message = ex.Message });
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		[HttpPost]
+		public JsonResult IncluirBeficirio(BeneficiarioModel model)
+		{
+
+			BoBeneficiario bo = new BoBeneficiario();
+
+			if (!this.ModelState.IsValid)
+			{
+				List<string> erros = (from item in ModelState.Values
+									  from error in item.Errors
+									  select error.ErrorMessage).ToList();
+
+				Response.StatusCode = 400;
+				return Json(string.Join(Environment.NewLine, erros));
+			}
+			else
+			{
+				model.ID = bo.Incluir(new Beneficiario()
+				{
+					CPF = model.CPF,
+					NOME = model.NOME,
+					IDCLIENTE = model.IDCLIENTE
+				});
+
+				return Json("Cadastro efetuado com sucesso");
+			}
+		}
+
+
+		[HttpPost]
+		public JsonResult AlterarBeficirio(BeneficiarioModel model)
+		{
+			BoBeneficiario bo = new BoBeneficiario();
+
+			if (!this.ModelState.IsValid)
+			{
+				List<string> erros = (from item in ModelState.Values
+									  from error in item.Errors
+									  select error.ErrorMessage).ToList();
+
+				Response.StatusCode = 400;
+				return Json(string.Join(Environment.NewLine, erros));
+			}
+			else
+			{
+				bo.Alterar(new Beneficiario()
+				{
+					ID = model.ID,
+					CPF = model.CPF,
+					NOME = model.NOME,
+					IDCLIENTE = model.IDCLIENTE
+				});
+
+				return Json("Cadastro alterado com sucesso");
+			}
+		}
+
+		[HttpGet]
+		public ActionResult AlterarBeficirio(long id)
+		{
+			BoBeneficiario bo = new BoBeneficiario();
+			Beneficiario cliente = bo.Consultar(id);
+			Models.BeneficiarioModel model = null;
+
+			if (cliente != null)
+			{
+				model = new BeneficiarioModel()
+				{
+					ID = model.ID,
+					CPF = model.CPF,
+					NOME = model.NOME,
+					IDCLIENTE = model.IDCLIENTE
+				};
+			}
+
+			return View(model);
+		}
+
+
+
+		[HttpPost]
+		public JsonResult BeficirioList(int jtStartIndex = 0, int jtPageSize = 0, string jtSorting = null)
+		{
+			try
+			{
+				int qtd = 0;
+				string campo = string.Empty;
+				string crescente = string.Empty;
+				string[] array = jtSorting.Split(' ');
+
+				if (array.Length > 0)
+					campo = array[0];
+
+				if (array.Length > 1)
+					crescente = array[1];
+
+				List<Beneficiario> beneficiarios = new BoBeneficiario().Pesquisa(jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out qtd);
+
+				//Return result to jTable
+				return Json(new { Result = "OK", Records = beneficiarios, TotalRecordCount = qtd });
+			}
+			catch (Exception ex)
+			{
+				return Json(new { Result = "ERROR", Message = ex.Message });
+			}
+		}
+
+	}
 }
